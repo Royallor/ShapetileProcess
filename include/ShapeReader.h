@@ -2,19 +2,32 @@
 // Created by Chikee on 2022/2/14.
 //
 
-#ifndef SHAPETILEPROCESS_SHAPE_H
-#define SHAPETILEPROCESS_SHAPE_H
-#include<shapefil.h>
-#include "CoreStruct.hpp"
-_NAMESPACE_BEGIN
-class ShapeReader{
+#ifndef SHAPEREADER_H
+#define SHAPEREADER_H
+
+#include <shapefil.h>
+#include <iostream>
+
+class ShapeReader
+{
 private:
     SHPHandle m_shp;
     DBFHandle m_dbf;
+    SHPObject m_obj;
+    int m_count = -1;
+    int m_shapeType = -1;
+    double m_minBound[4];
+    double m_maxBound[4];
+    int numberOfFeatures = 0;
+
 public:
     ShapeReader(std::string fileName);
+
     ~ShapeReader();
-    bool readVectorInfoFromFile(const char* file,GlobalVectorInfo* pData);
+
+    void getInfo();
+
+    void (*worker)(char *f);
 };
-_NAMESPACE_END
-#endif //SHAPETILEPROCESS_SHAPE_H
+
+#endif // SHAPETILEPROCESS_SHAPE_H
